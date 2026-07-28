@@ -1,4 +1,4 @@
-package com.campus.courseservice;
+package com.campus.course_service;
 
 import org.springframework.stereotype.Component;
 

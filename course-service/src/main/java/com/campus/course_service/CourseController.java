@@ -1,4 +1,4 @@
-package com.campus.courseservice;
+package com.campus.course_service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,11 +14,14 @@ public class CourseController {
             new Course(3L, "Data Structures", 60)
     );
 
-    private final StudentClient studentClient;   // our connection!
+    private final StudentClient studentClient;  
+    private final EnrollmentPublisher publisher;
+ // our connection!
 
-    public CourseController(StudentClient studentClient) {
-        this.studentClient = studentClient;      // Spring injects it
-    }
+    public CourseController(StudentClient studentClient, EnrollmentPublisher publisher) {
+    this.studentClient = studentClient;
+    this.publisher = publisher;
+}
 
     // GET http://localhost:8082/courses
     @GetMapping
@@ -40,6 +43,8 @@ public class CourseController {
         // Looks like a normal method call, but travels over the network
         // to student-service (found via Eureka, guarded by circuit breaker).
         StudentDto student = studentClient.getStudent(studentId);
+
+        publisher.publish(new EnrollmentEvent(courseId, studentId, student.name()));
 
         return Map.of(
                 "message", "Enrolment successful!",

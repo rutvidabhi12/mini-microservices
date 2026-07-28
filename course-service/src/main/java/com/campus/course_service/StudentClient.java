@@ -1,4 +1,4 @@
-package com.campus.courseservice;
+package com.campus.course_service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
